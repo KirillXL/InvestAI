@@ -1,0 +1,8 @@
+#backend-ml
+yfinance
+finam
+
+#backend
+
+
+#frontend
