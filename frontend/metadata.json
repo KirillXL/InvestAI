@@ -1,6 +1,6 @@
 {
   "name": "InvestAI",
-  "description": "AI-powered financial market forecasting platform with interactive stock charts and model switching capabilities.",
+  "description": "Financial market forecasting system using machine learning with interactive stock charts and AI models.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }
