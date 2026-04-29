@@ -3,6 +3,9 @@ yfinance
 finam
 
 #backend
-
+fastapi
+uvicorn
+scikit-learn
+pandas
 
 #frontend

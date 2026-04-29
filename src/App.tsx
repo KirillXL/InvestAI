@@ -70,13 +70,36 @@ export default function App() {
         confidence: geminiResult.confidence
       };
     } else {
-      const p = generatePrediction(history, 'own');
-      pred = {
-        price: p,
-        analysis: "Internal algorithm analyzing momentum and volume patterns.",
-        trend: p > (history[history.length - 1]?.price || 0) ? 'bullish' : 'bearish',
-        confidence: 65 + Math.random() * 15
-      };
+      try {
+        const response = await fetch('http://localhost:8000/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            symbol: selectedStock.symbol,
+            history: history
+          })
+        });
+        
+        if (!response.ok) throw new Error('API Error');
+        
+        const data = await response.json();
+        pred = {
+          price: data.price,
+          analysis: data.analysis,
+          trend: data.trend,
+          confidence: data.confidence
+        };
+      } catch (error) {
+        console.error("Local API Error:", error);
+        // Fallback если Python сервер выключен
+        const p = generatePrediction(history, 'own');
+        pred = {
+          price: p,
+          analysis: "ОШИБКА: Сервер Python недоступен. Запущен резервный алгоритм.",
+          trend: p > (history[history.length - 1]?.price || 0) ? 'bullish' : 'bearish',
+          confidence: 50
+        };
+      }
     }
 
     setCurrentPrediction(pred);
